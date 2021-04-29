@@ -3,13 +3,8 @@ import { Book } from '../entities/Book'
 export class BookService {
     constructor() { }
 
-    public index = (): Array<object> => {
-        return [{
-            name: 'les misérables'
-        },
-        {
-            name: 'la horde du contrevent'
-        }]
+    public index = (): Promise<Book[]> => {
+        return Book.find();
     }
 
     public create = async (title: string): Promise<Book> => {

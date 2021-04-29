@@ -1,0 +1,155 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Node.js + TypeScript + TypeORM rest API",
+        "description": "Backend API boiler plate with Node.js + TypeScript + TypeORM rest API documented with Swagger",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "quentin.danneville@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "books",
+            "description": "All the books logic needed"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Returns 'Hello world !' to the caller",
+                "tags": [
+                    "books"
+                ],
+                "operationId": "Hello",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "string",
+                            "items": {
+                                "$ref": "#/definitions/Greeting"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/books/": {
+            "get": {
+                "description": "By passing in the appropriate options, you can search for available inventory in the system",
+                "summary": "Fetch books",
+                "tags": [
+                    "books"
+                ],
+                "operationId": "getBooks",
+                "parameters": [
+                    {
+                        "name": "searchString",
+                        "in": "query",
+                        "description": "pass an optional search string for looking up books",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "description": "number of records to skip for pagination",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "minimum": 0,
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "maximum number of records to return",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "maximum": 50,
+                            "minimum": 0,
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "search results matching criteria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Book"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad input parameter"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Book": {
+                "required": [
+                    "id",
+                    "title",
+                    "updatedAt",
+                    "createdAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Les misérables"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2016-08-29T09:12:33.001Z"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2016-08-29T09:12:33.001Z"
+                    }
+                }
+            }
+        }
+    }
+}

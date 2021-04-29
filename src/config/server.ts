@@ -12,6 +12,14 @@ import { Book } from '../modules/book/entities/Book'
 import { UserController } from '../modules/user/controllers/user'
 import { BookController } from '../modules/book/controllers/book'
 
+//Middlewares
+import morgan from 'morgan';
+import { logStream } from '../middlewares/logger/winston'
+
+//Documentation
+import swaggerOptions from '../middlewares/documentation/swagger.json'
+import swaggerUi from 'swagger-ui-express'
+
 export class Server {
     private userController: UserController;
     private bookController: BookController;
@@ -20,14 +28,22 @@ export class Server {
     constructor() {
         this.app = express(); // Create our app with express
         this.configuration(); // Run specific config if needed
+
         this.userController = new UserController()
         this.bookController = new BookController()
+
         this.routes();
     }
 
     public configuration() {
         this.app.set('port', PORT)
         this.app.use(express.json());
+
+        //Middlewares
+        this.app.use(morgan('combined', { stream: logStream }));
+
+        //Documentation
+        this.app.use(`${API_BASE_URL}/documentation/`, swaggerUi.serve, swaggerUi.setup(swaggerOptions));
 
         //Initializing our ORM -> typeORM here
         this.initORM();
@@ -55,7 +71,7 @@ export class Server {
     }
 
     //Start commands usually just make our app listen on a specific port
-    public start() {
+    public async start() {
         this.app.listen(this.app.get('port'), () => {
             console.log(`Server has been started on localhost:${PORT}`)
         })

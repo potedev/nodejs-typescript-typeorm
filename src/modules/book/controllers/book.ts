@@ -1,4 +1,5 @@
 import { Router, Response, Request } from 'express'
+import { Book } from '../entities/Book';
 import { BookService } from '../services/book';
 
 export class BookController {
@@ -13,13 +14,13 @@ export class BookController {
     }
 
     //Simple method using our app service
-    public index = (_: Request, res: Response): Response => {
-        return res.status(200).json(this.bookService.index());
+    public index = async (_: Request, res: Response): Promise<Response<Book[] | undefined>> => {
+        const books = await this.bookService.index()
+        return res.status(200).json(books);
     }
 
     public create = async (req: Request, res: Response): Promise<Object> => {
         const book = await this.bookService.create(req.body.title)
-        console.log('value returned : ', book)
         return res.status(200).json(book);
     }
 
