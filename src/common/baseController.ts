@@ -1,32 +1,33 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 
 export abstract class BaseController {
+
     /**
-   * This is the implementation that we will leave to the
-   * subclasses to figure out. 
+  * This is the implementation that we will leave to the
+  * subclasses to figure out. 
+  */
+
+    protected abstract executeImpl(
+        req: Request, res: Response
+    ): Promise<void | any>;
+
+    /**
+   * This is what we will call on the route handler.
+   * We also make sure to catch any uncaught errors in the
+   * implementation.
    */
 
-//     protected abstract executeImpl(
-//         req: Request, res: Response
-//     ): Promise<void | any>;
-
-//     /**
-//    * This is what we will call on the route handler.
-//    * We also make sure to catch any uncaught errors in the
-//    * implementation.
-//    */
-
-//     public async execute(
-//         req: Request, res: Response
-//     ): Promise<void> {
-//         try {
-//             await this.executeImpl(req, res);
-//         } catch (err) {
-//             console.log(`[BaseController]: Uncaught controller error`);
-//             console.log(err);
-//             this.fail(res, 'An unexpected error occurred')
-//         }
-//     }
+    public async execute(
+        req: Request, res: Response
+    ): Promise<void> {
+        try {
+            await this.executeImpl(req, res);
+        } catch (err) {
+            console.log(`[BaseController]: Uncaught controller error`);
+            console.log(err);
+            this.fail(res, 'An unexpected error occurred')
+        }
+    }
 
     public static jsonResponse(
         res: Response, code: number, message: string

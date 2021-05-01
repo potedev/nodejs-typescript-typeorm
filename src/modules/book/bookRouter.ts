@@ -1,23 +1,16 @@
 import { Router } from 'express'
-import { BookController } from './bookController'
 
-export class BookRouter {
-    private bookController: BookController
-    router: Router | any
+//Import the exported controller from the useCase index file (with the repo and service loaded into this controller)
+import { createBookController } from './useCases/createBook/index'
 
-    constructor(bookController: BookController) {
-        this.bookController = bookController
-        this.router = Router()
+const bookRouter = Router();
 
-        this.initRoutes()
+console.log('create book Controller instance class : ', createBookController)
 
-        return this.router
-    }
+bookRouter.post('/', (req, res) => createBookController.execute(req, res))
 
-    private initRoutes() {
-        this.router.get('/', this.bookController.index)
-        this.router.post('/', (req, res) => this.bookController.create(req, res))
-        this.router.put('/:id', this.bookController.update)
-        this.router.delete('/:id', this.bookController.delete)
-    }
-}
+bookRouter.get('/', (req, res) => {
+    console.log('hello here')
+})
+
+export { bookRouter }

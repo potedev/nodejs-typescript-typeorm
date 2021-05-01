@@ -1,5 +1,5 @@
-import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Entity, BaseEntity } from 'typeorm'
-import { Length } from "class-validator";
+import { Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Entity, BaseEntity, ManyToOne } from 'typeorm'
+import { Author } from './author'
 
 @Entity()
 export class Book extends BaseEntity {
@@ -13,6 +13,8 @@ export class Book extends BaseEntity {
     updatedAt: Date;
 
     @Column()
-    @Length(10, 20)
     title!: string;
+
+    @ManyToOne(() => Author, author => author.books)
+    author: Author
 }

@@ -1,36 +1,33 @@
-import { validate } from 'class-validator'
+import { Author } from '../author/author'
 
-export interface BookProps {
+interface BookProps {
     title: string
-    updatedAt: string | Date | null
-    createdAt: string | Date | null
+    author?: Author | undefined
 }
 
-export class BookClass implements BookProps {
+export class Book implements BookProps {
     public title: string
-    public updatedAt: string | Date | null
-    public createdAt: string | Date | null
+    public author: Author
 
     constructor(props: BookProps) {
-        this.title = props.title
-        this.updatedAt = props.updatedAt
-        this.createdAt = props.createdAt
+        console.log('Book props', props);
+
+        const { title, author } = props;
+
+        this.title = title;
+
+        if (author) {
+            this.author = author;
+        }
     }
 
-    public static async create(props: BookProps) {
+    public static create(props: BookProps): Book {
+        const { title } = props
 
-        const book = new BookClass(props)
+        console.log('Creation book with title : ', title);
 
-        const errors = await validate(book);
+        const book = new Book({ title })
 
-        console.log(errors);
-
-        if (errors.length > 0) {
-            console.log('errors', errors);
-            throw new Error(`Validation failed!`);
-        }
-
-        console.log('book class created');
         return book
     }
 }
