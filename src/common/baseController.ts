@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { Error } from './result'
 
 export abstract class BaseController {
 
@@ -30,9 +31,13 @@ export abstract class BaseController {
     }
 
     public static jsonResponse(
-        res: Response, code: number, message: string
+        res: Response, code: number, message?: string, errors?: Error[]
     ) {
-        return res.status(code).json({ message })
+        if (message) {
+            return res.status(code).json({ message })
+        } else {
+            return res.status(code).json({ errors })
+        }
     }
 
     public ok<T>(res: Response, dto?: T) {
@@ -48,8 +53,8 @@ export abstract class BaseController {
         return res.sendStatus(201);
     }
 
-    public clientError(res: Response, message?: string) {
-        return BaseController.jsonResponse(res, 400, message ? message : 'Unauthorized');
+    public clientError(res: Response, message?: string, errors?: Error[]) {
+        return BaseController.jsonResponse(res, 400, message, errors);
     }
 
     public unauthorized(res: Response, message?: string) {

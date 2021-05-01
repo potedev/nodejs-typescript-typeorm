@@ -13,8 +13,11 @@ export class CreateBookController extends BaseController {
     async executeImpl(req: Request, res: Response): Promise<void | any> {
         //Get body with req.body
 
+        const { title, description } = req.body
+
         const bookProps = {
-            title: req.body.title
+            title,
+            description
         }
 
         try {
@@ -22,8 +25,13 @@ export class CreateBookController extends BaseController {
             const result = await this.useCase.execute(bookProps)
 
             //Notify the client by throwing a correct status according to result
-
             console.log('Controller result', result)
+
+            if (!result.isSuccess) {
+                this.clientError(res, undefined, result.errors)
+            }
+
+            return this.created(res)
         }
         catch (err) {
             //If something went wrong

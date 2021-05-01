@@ -1,6 +1,11 @@
 import { IBookRepo } from '../../bookRepo'
 import { Book } from '../../book'
 
+//Errors handlers
+import { validate } from 'class-validator'
+import { parseError } from '../../../../utils/parseClassValidatorError'
+import { Result } from '../../../../common/result'
+
 //Equivalent to a specific service in a CRUD API
 export class CreateBook {
     private bookRepo: IBookRepo
@@ -25,16 +30,20 @@ export class CreateBook {
 
             console.log('book class object', book);
 
-            //Handle bad class instanciation
+            const errors = parseError(await validate(book))
+
+            console.log(errors)
+
+            if (errors) {
+                return Result.fail(errors)
+            }
 
             //Storing to our database with our ORM
             await this.bookRepo.save(book)
 
-            //Todo parse Result
-            return { success: true }
-
+            return Result.ok<Book>(book)
         } catch (e) {
-            //Handle useCase errors
+            return Result.fail(e)
         }
     }
 }
