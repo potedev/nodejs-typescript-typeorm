@@ -182,3 +182,11 @@
 {"message":"::1 - - [30/Apr/2021:21:02:42 +0000] \"POST /api/v1/books/ HTTP/1.1\" 200 47 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
 {"message":"::1 - - [30/Apr/2021:21:03:39 +0000] \"POST /api/v1/books/ HTTP/1.1\" 200 47 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
 {"message":"::1 - - [30/Apr/2021:21:03:42 +0000] \"POST /api/v1/books/ HTTP/1.1\" 400 134 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:57:49 +0000] \"GET /api/v1/books/818efd12-bcb5-468b-9045-336a0f6bf8a HTTP/1.1\" 400 26 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:57:52 +0000] \"GET /api/v1/books/818efd12-bcb5-468b-9045-336a0f6bf8ab HTTP/1.1\" 200 168 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:57:56 +0000] \"POST /api/v1/authors/ HTTP/1.1\" 400 55 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:58:04 +0000] \"POST /api/v1/authors/ HTTP/1.1\" 201 7 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:58:08 +0000] \"POST /api/v1/authors/ HTTP/1.1\" 400 56 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:58:11 +0000] \"POST /api/v1/books/ HTTP/1.1\" 400 57 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:58:17 +0000] \"POST /api/v1/books/ HTTP/1.1\" 201 7 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}
+{"message":"::1 - - [02/May/2021:19:58:24 +0000] \"POST /api/v1/books/ HTTP/1.1\" 400 58 \"-\" \"PostmanRuntime/7.28.0\"\n","level":"info"}

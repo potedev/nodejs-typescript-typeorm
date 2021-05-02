@@ -31,12 +31,12 @@ export abstract class BaseController {
     }
 
     public static jsonResponse(
-        res: Response, code: number, message?: string, errors?: Error[]
+        res: Response, code: number, message?: string, error?: Error
     ) {
         if (message) {
             return res.status(code).json({ message })
         } else {
-            return res.status(code).json({ errors })
+            return res.status(code).json({ error })
         }
     }
 
@@ -53,8 +53,8 @@ export abstract class BaseController {
         return res.sendStatus(201);
     }
 
-    public clientError(res: Response, message?: string, errors?: Error[]) {
-        return BaseController.jsonResponse(res, 400, message, errors);
+    public clientError(res: Response, message?: string, error?: Error) {
+        return BaseController.jsonResponse(res, 400, message, error);
     }
 
     public unauthorized(res: Response, message?: string) {

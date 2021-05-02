@@ -4,7 +4,7 @@ import { Book } from "./book";
 @Entity()
 export class Author extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("uuid")
     id: number;
 
     @Column()

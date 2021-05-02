@@ -6,16 +6,14 @@ export interface Error {
 export class Result<T> {
     public isSuccess: boolean
     public isFailure?: boolean
-    public errors?: Error[]
+    public error?: Error
     private value: T | undefined
 
-    private constructor(isSuccess: boolean, errors?: Error[], value?: T) {
+    private constructor(isSuccess: boolean, error?: Error, value?: T) {
         this.isSuccess = isSuccess
         this.isFailure = !isSuccess
-        this.errors = errors
+        this.error = error
         this.value = value
-
-        console.log('error array : ', errors)
     }
 
     public getValue(): T {
@@ -33,7 +31,7 @@ export class Result<T> {
         return new Result<U>(true, undefined, value);
     }
 
-    public static fail<U>(errors: Error[]): Result<U> {
-        return new Result<U>(false, errors);
+    public static fail<U>(error: Error): Result<U> {
+        return new Result<U>(false, error);
     }
 }

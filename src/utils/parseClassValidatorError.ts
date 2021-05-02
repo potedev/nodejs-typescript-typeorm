@@ -18,21 +18,17 @@
 
 import { ValidationError } from "class-validator"
 
+//We choose to only return the first error
 export const parseError = (errors: ValidationError[]) => {
     console.log('errors', errors)
 
     //No errors
     if (!(errors.length > 0)) return false
 
-    const parsedErrors = errors.map(error => {
+    const message = errors[0]['constraints'] ? errors[0]['constraints'][Object.keys(errors[0]['constraints'])[0]] : 'Something went wrong'
 
-        const message = error['constraints'] ? error['constraints'][Object.keys(error['constraints'])[0]] : 'Something went wrong'
-
-        return {
-            field: error['property'],
-            message
-        }
-    })
-
-    return parsedErrors
+    return {
+        field: errors[0]['property'],
+        message
+    }
 }
