@@ -5,6 +5,7 @@ export interface BookProps {
     title: string
     description?: string
     author?: Author
+    other: string
 }
 
 export class Book implements BookProps {
@@ -31,21 +32,27 @@ export class Book implements BookProps {
     //-------------FIELD-------------
 
     public author?: Author
+    public other: string
 
     constructor(props: BookProps) {
         console.log('Book props', props);
 
-        const { title, author, description } = props;
+        const { title, author, description, other } = props;
 
         this.title = title;
         this.description = description;
         this.author = author;
+        this.other = other;
+    }
+
+    public static someMethods() {
+        return 'lol'
     }
 
     public static create(props: BookProps): Book {
         const { title, description } = props
 
-        const book = new Book({ title, description })
+        const book = new Book({ title, description, other:"lol" })
 
         return book
     }

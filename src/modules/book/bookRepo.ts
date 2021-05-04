@@ -39,7 +39,8 @@ export class BookRepo implements IBookRepo {
 
         const BookEntity = this.entities.Book;
 
-        console.log('repo book props', book);
+
+        console.log('TYPE OF BOOK', typeof book);
 
         const exists = await this.exists(book.title);
 

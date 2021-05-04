@@ -3,6 +3,10 @@ export interface Error {
     message: string
 }
 
+export interface commonError {
+    message: string
+}
+
 export class Result<T> {
     public isSuccess: boolean
     public isFailure?: boolean

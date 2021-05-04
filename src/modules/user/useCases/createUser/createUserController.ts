@@ -1,11 +1,11 @@
-import { CreateBook } from './createBook'
+import { CreateUser } from './createUser'
 import { Request, Response } from 'express'
 import { BaseController } from '../../../../common/baseController';
 
-export class CreateBookController extends BaseController {
-    private useCase: CreateBook;
+export class CreateUserController extends BaseController {
+    private useCase: CreateUser;
 
-    constructor(useCase: CreateBook) {
+    constructor(useCase: CreateUser) {
         super()
         this.useCase = useCase
     }
@@ -13,16 +13,22 @@ export class CreateBookController extends BaseController {
     async executeImpl(req: Request, res: Response): Promise<void | any> {
         //Get body with req.body
 
-        const { title, description } = req.body
+        const { username, email, password, lastname, firstname } = req.body
 
-        const bookProps = {
-            title,
-            description
+        const userProps = {
+            username,
+            email,
+            password,
+            lastname,
+            firstname
         }
 
         try {
-            //Execute method from our createBook useCase
-            const result = await this.useCase.execute(bookProps)
+            //Execute method from our createUser useCase
+            const result = await this.useCase.execute(userProps)
+
+            //Notify the client by throwing a correct status according to result
+            console.log('Controller result', result)
 
             if (!result.isSuccess) {
                 return this.clientError(res, undefined, result.error)

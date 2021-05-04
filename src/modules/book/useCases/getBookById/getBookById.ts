@@ -14,18 +14,13 @@ export class GetBookById {
 
         try {
 
-            try {
-                book = await this.bookRepo.getBookById(id)
-            }
-            catch (e) {
-                return Result.fail(e.message)
-            }
+            book = await this.bookRepo.getBookById(id)
 
             return Result.ok(book)
 
         } catch (e) {
             //TODO APP ERROR
-            return Result.fail(e)
+            return Result.fail(e.message)
         }
     }
 }
