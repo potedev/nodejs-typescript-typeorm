@@ -16,6 +16,12 @@ export const FORGET_PASSWORD_PREFIX = "forget-password";
 
 export let API_BASE_URL = process.env.API_BASE_URL || '/api/v1/'
 
+
+//REDIS
+
+export let AUTH_SECRET = process.env.AUTH_SECRET || 'secret_auth_passphrase'
+export let TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME || 300
+
 if (API_BASE_URL[API_BASE_URL.length - 1] === "/") {
     API_BASE_URL = API_BASE_URL.slice(0, -1)
 }

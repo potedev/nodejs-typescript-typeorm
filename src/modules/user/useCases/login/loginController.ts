@@ -24,23 +24,28 @@ export class LoginController extends BaseController {
             const result = await this.useCase.execute(loginProps)
 
             //Notify the client by throwing a correct status according to result
-            console.log('Controller result', result)
 
             if (!result.isSuccess) {
                 return this.clientError(res, undefined, result.error)
             }
 
-            const user = result.getValue();
+            const user: any = result.getValue();
 
-            res.cookie("jid", user.refreshToken, {
-                httpOnly: true,
-                path: "/refresh_token"
-            });
+            res.cookie(
+                "access_token",
+                user.accessToken,
+                { maxAge: 900000, httpOnly: true }
+            );
 
+            res.cookie(
+                "refresh_token",
+                user.refreshToken,
+                { maxAge: 900000, httpOnly: true }
+            );
 
-            const { refreshToken, ...userWithoutRefreshToken } = user
+            const { refreshToken, accessToken, ...userWithoutAccessAndRefreshToken } = user
 
-            return this.ok(res, userWithoutRefreshToken)
+            return this.ok(res, userWithoutAccessAndRefreshToken)
         }
         catch (err) {
             //If something went wrong

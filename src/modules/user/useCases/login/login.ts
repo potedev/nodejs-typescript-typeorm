@@ -1,15 +1,19 @@
 import { IUserRepo } from '../../userRepo'
 import { User } from '../../user'
 import { Result } from '../../../../common/result'
-import { sign } from 'jsonwebtoken'
+import { sign, verify } from 'jsonwebtoken'
 import randtoken from 'rand-token'
+
+import { AUTH_SECRET } from '../../../../constant'
 
 //Equivalent to a specific service in a CRUD API
 export class Login {
     private userRepo: IUserRepo
+    private authService: any
 
-    constructor(userRepo: IUserRepo) {
+    constructor(userRepo: IUserRepo, authService: any) {
         this.userRepo = userRepo
+        this.authService = authService
     }
 
     //This is what our use case will do
@@ -49,7 +53,7 @@ export class Login {
                 })
             }
 
-            let user;
+            let user: any;
 
             user = await this.userRepo.getUserByUsernameOrEmail(usernameOrEmail);
 
@@ -62,28 +66,28 @@ export class Login {
                 })
             }
 
-            console.log('found user :', user);
+            const xsrfToken = this.authService.createXsrfToken();
 
-            //Sign a JWT with user ID
+            const payload = {
+                username: user.username,
+                email: user.email,
+                userId: user.id,
+                xsrfToken: xsrfToken
+            }
 
-            //Create an access token with jwt token
-            //Create a refresh token 
-            //Add access token to response
-            //Add refresh token to cookies
-            //Store those data to redis
-
-            const accessToken = sign({ userId: user.id }, "qsdqsd", { expiresIn: '15m' });
-            const refreshToken = randtoken.uid(256);
+            const accessToken = this.authService.signJWT(payload);
+            const refreshToken = this.authService.createRefreshToken();
 
             //TODO DTO login
             const resultUser = {
-                firstname: user.firstname,
-                lastname: user.lastname,
-                username: user.username,
-                email: user.email,
                 accessToken: accessToken,
-                refreshToken: refreshToken
+                refreshToken: refreshToken,
+                xsrfToken
             }
+
+            console.log('login use case result user', resultUser);
+
+            this.authService.saveAuthenticatedUser({ username: user.username, refreshToken: refreshToken, token: accessToken, xsrfToken: xsrfToken })
 
             return Result.ok(resultUser)
         } catch (e) {
